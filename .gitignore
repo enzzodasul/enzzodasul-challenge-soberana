@@ -3,3 +3,5 @@ database.sqlite
 .env
 npm-debug.log*
 test/
+MinhaCola.txt
+estrutura.txt
