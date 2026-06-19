@@ -5,6 +5,7 @@ import App from './App.jsx'   // importando o coponente principal aqui
 
 createRoot(document.getElementById('root')).render(    // ta conectando na div no incex html 
   <StrictMode>
-    <App />          // Renderize App mas monitore tudo usando StrictMode
+    <App />          
   </StrictMode>,
 )
+// Renderize App mas monitore tudo usando StrictMode
