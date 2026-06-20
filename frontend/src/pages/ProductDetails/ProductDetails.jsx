@@ -13,7 +13,7 @@ export default function ProductDetails() {
   const {data: produto, isLoading, error } = useQuery({
     queryKey: ["product", id],
     queryFn: async () => {
-      const response = await backendApi.get('/products/${id}');
+      const response = await backendApi.get(`/products/${id}`);
       return response.data;
     },
   });
