@@ -54,8 +54,8 @@ export default function EditProduct() {
 
       alert("Produto atualizado!");
 
-      // volta para tela de detalhes
-      navigate(`/product/${id}`);
+      // volta para tela de dashboard
+      navigate("/");
 
     } catch (error) {
 

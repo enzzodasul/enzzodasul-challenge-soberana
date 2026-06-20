@@ -1,0 +1,79 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: linear-gradient(35deg, #8eb0ff, #090c11);
+  min-height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+  font-size: 3rem;
+  margin-bottom: 30px;
+}
+
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(10px);
+
+  border: 1px solid #91ff00;
+  border-radius: 5px 25px 5px 25px;
+
+  color: white;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #91ff00;
+}
+
+input,textarea {
+  width: 100%;
+  padding: 12px;
+
+  border: 1px solid #91ff00;
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+
+  outline: none;
+
+  transition: 0.3s;
+}
+
+.btn-atualizar-produto {
+  width: 100%;
+  margin-top: 20px;
+
+  padding: 14px;
+
+  border: none;
+  border-radius: 10px;
+
+  background-color: #4caf50;
+  color: white;
+
+  font-size: 1rem;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.btn-atualizar-produto:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
