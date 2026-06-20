@@ -1,56 +1,112 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-
-import {useQuery } from "@tanstack/react-query";
-
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { backendApi } from "../../services/api";
+
+
+
+
+
 
 
 export default function ProductDetails() {
 
-  const {id} = useParams();
+  // pega o id que vem pela url
+  const { id } = useParams();
+
+  // usado para voltar para outra tela depois
   const navigate = useNavigate();
 
-  const {data: produto, isLoading, error } = useQuery({
+  // serve para atualizar os dados depois de alterar algo
+  const queryClient = useQueryClient();
+
+  const {
+    data: produto,
+    isLoading,
+    error
+  } = useQuery({
     queryKey: ["product", id],
+
     queryFn: async () => {
-      const response = await backendApi.get(`/products/${id}`);
-      return response.data;
+
+      // busca o produto pelo id
+      const resposta = await backendApi.get(`/products/${id}`);
+
+      return resposta.data;
     },
   });
 
-
-
-async function deletarProduto() {
-
-    const confirmar = window.confirm(
-      "Deseja realmente excluir este produto?"
-    );
-
-    if (!confirmar) return;
+  async function mudarEstoque(valor) {
 
     try {
 
+      // soma ou diminui do estoque atual
+      const estoqueAtualizado = produto.stock + valor;
+
+      // não deixa ficar negativo
+      if (estoqueAtualizado < 0) {
+        alert("O estoque não pode ficar negativo");
+        return;
+      }
+
+      // atualiza no banco
+      await backendApi.put(`/products/${id}`, {
+        name: produto.name,
+        description: produto.description,
+        price: produto.price,
+        stock: estoqueAtualizado
+      });
+
+      // faz a tela buscar os dados novamente
+      queryClient.invalidateQueries({
+        queryKey: ["product", id]
+      });
+
+    } catch (erro) {
+
+      console.error(erro);
+
+      alert("Erro ao alterar estoque");
+
+    }
+  }
+
+  async function excluirProduto() {
+
+    const confirmar = window.confirm(
+      "Tem certeza que deseja excluir este produto?"
+    );
+
+    if (!confirmar) {
+      return;
+    }
+
+    try {
+
+      // apaga o produto
       await backendApi.delete(`/products/${id}`);
 
-      alert("Produto excluído!");
+      alert("Produto removido com sucesso");
 
+      // volta para dashboard
       navigate("/");
 
-    } catch (error) {
+    } catch (erro) {
 
-      console.error(error);
+      console.error(erro);
 
       alert("Erro ao excluir produto");
 
     }
   }
 
+  // enquanto carrega
   if (isLoading) {
-    return <h2>Carregando produto...</h2>;
+    return <h2>Carregando...</h2>;
   }
 
+  // caso dê erro na busca
   if (error) {
-    return <h2>Erro ao carregar produto.</h2>;
+    return <h2>Erro ao buscar produto.</h2>;
   }
 
   return (
@@ -62,11 +118,31 @@ async function deletarProduto() {
         <strong>Preço:</strong> R$ {produto.price}
       </p>
 
-      <p>
-        <strong>Estoque:</strong> {produto.stock}
-      </p>
+      <div style={{ marginTop: "20px" }}>
 
-      <p>
+        {/* tira 1 do estoque */}
+        <button onClick={() => mudarEstoque(-1)}>
+          -
+        </button>
+
+        <span
+          style={{
+            marginLeft: "15px",
+            marginRight: "15px",
+            fontWeight: "bold"
+          }}
+        >
+          Estoque: {produto.stock}
+        </span>
+
+        {/* adiciona 1 no estoque */}
+        <button onClick={() => mudarEstoque(1)}>
+          +
+        </button>
+
+      </div>
+
+      <p style={{ marginTop: "20px" }}>
         <strong>Descrição:</strong> {produto.description}
       </p>
 
@@ -74,12 +150,12 @@ async function deletarProduto() {
 
       <Link to={`/edit/${produto.id}`}>
         <button>
-          Atualizar Produto
+          Editar Produto
         </button>
       </Link>
 
       <button
-        onClick={deletarProduto}
+        onClick={excluirProduto}
         style={{ marginLeft: "10px" }}
       >
         Excluir Produto

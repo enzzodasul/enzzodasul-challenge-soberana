@@ -2,61 +2,84 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { backendApi } from "../../services/api";
 
+import "./Dashboard.css";
+
 export default function Dashboard() {
 
-  const { data: produtos = [], isLoading, error } = useQuery({
+  const {
+    data: produtos = [],
+    isLoading,
+    error
+  } = useQuery({
+
     queryKey: ["products"],
+
     queryFn: async () => {
-      const response = await backendApi.get("/products");
-      return response.data;
+
+      // busca todos os produtos cadastrados no backend
+      const resposta = await backendApi.get("/products");
+
+      return resposta.data;
     },
   });
 
+  // loading da página
   if (isLoading) {
     return <h2>Carregando produtos...</h2>;
   }
 
+  // erro da requisição
   if (error) {
     return <h2>Erro ao carregar produtos.</h2>;
   }
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="dashboard">
 
-      <h1>Dashboard</h1>
+      <h1>Dashboard de Produtos</h1>
 
-      <Link to="/create">
-        <button>
-          Criar Novo Produto
-        </button>
+      {/* botão para cadastrar novo produto */}
+      <Link to="/create" className="create-button">
+        Criar Novo Produto
       </Link>
 
       <h3>
         Quantidade de Produtos: {produtos.length}
       </h3>
 
+      {/* mensagem quando não existir produto */}
       {produtos.length === 0 && (
         <p>Nenhum produto cadastrado.</p>
       )}
 
-      {produtos.map((produto) => (
-        <div
-          key={produto.id}
-          style={{
-            border: "1px solid #ccc",
-            padding: "10px",
-            marginTop: "10px",
-          }}
-        >
-          <Link to={`/product/${produto.id}`}>
-            <h3>{produto.name}</h3>
-          </Link>
+      <div className="product-list">
 
-          <p>Preço: R$ {produto.price}</p>
+        {produtos.map((produto) => (
 
-          <p>Estoque: {produto.stock}</p>
-        </div>
-      ))}
+          <div
+            key={produto.id}
+            className="product-card"
+          >
+
+            {/* nome do produto clicável */}
+            <Link to={`/product/${produto.id}`}>
+              <h3>{produto.name}</h3>
+            </Link>
+
+            <p>
+              Preço: R$ {produto.price}
+            </p>
+
+            <p>
+              Estoque: {produto.stock}
+            </p>
+
+          </div>
+
+        ))}
+
+      </div>
+
     </div>
   );
 }

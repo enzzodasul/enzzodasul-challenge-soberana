@@ -2,8 +2,11 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { backendApi } from "../../services/api";
 
+import "./CreateProduct.css";
+
 export default function CreateProduct() {
 
+  // usado para redirecionar o usuário depois de salvar
   const navigate = useNavigate();
 
   const {
@@ -16,6 +19,7 @@ export default function CreateProduct() {
 
     try {
 
+      // envia os dados para o backend criar o produto
       await backendApi.post("/products", {
         name: data.name,
         description: data.description,
@@ -23,8 +27,9 @@ export default function CreateProduct() {
         stock: Number(data.stock)
       });
 
-      alert("Produto criado com sucesso!");
+      alert("Produto cadastrado com sucesso!");
 
+      // volta para dashboard
       navigate("/");
 
     } catch (error) {
@@ -37,15 +42,16 @@ export default function CreateProduct() {
   }
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="form-container">
 
       <h1>Criar Produto</h1>
 
+      {/* formulário de cadastro */}
       <form onSubmit={handleSubmit(onSubmit)}>
 
-        <div>
+        <div className="form-group">
+
           <label>Nome</label>
-          <br />
 
           <input
             {...register("name", {
@@ -53,14 +59,17 @@ export default function CreateProduct() {
             })}
           />
 
-          <p>{errors.name?.message}</p>
+          {errors.name && (
+            <p className="error-message">
+              {errors.name.message}
+            </p>
+          )}
+
         </div>
 
-        <br />
+        <div className="form-group">
 
-        <div>
           <label>Preço</label>
-          <br />
 
           <input
             type="number"
@@ -74,14 +83,17 @@ export default function CreateProduct() {
             })}
           />
 
-          <p>{errors.price?.message}</p>
+          {errors.price && (
+            <p className="error-message">
+              {errors.price.message}
+            </p>
+          )}
+
         </div>
 
-        <br />
+        <div className="form-group">
 
-        <div>
           <label>Quantidade</label>
-          <br />
 
           <input
             type="number"
@@ -94,23 +106,30 @@ export default function CreateProduct() {
             })}
           />
 
-          <p>{errors.stock?.message}</p>
+          {errors.stock && (
+            <p className="error-message">
+              {errors.stock.message}
+            </p>
+          )}
+
         </div>
 
-        <br />
+        <div className="form-group">
 
-        <div>
           <label>Descrição</label>
-          <br />
 
+          {/* descrição é opcional */}
           <textarea
+            rows="4"
             {...register("description")}
           />
+
         </div>
 
-        <br />
-
-        <button type="submit">
+        <button
+          type="submit"
+          className="save-button"
+        >
           Salvar Produto
         </button>
 

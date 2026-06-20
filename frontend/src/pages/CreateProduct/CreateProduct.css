@@ -1,0 +1,54 @@
+/* container da página */
+.form-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+/* título */
+.form-container h1 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* grupo de campo */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+/* labels */
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* inputs e textarea */
+.form-group input,
+.form-group textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* mensagem de erro */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* botão salvar */
+.save-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2d89ef;
+  color: white;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  opacity: 0.9;
+}
