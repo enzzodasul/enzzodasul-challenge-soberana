@@ -43,7 +43,7 @@ export default function Dashboard() {
         Criar Novo Produto
       </Link>
 
-      <h3>
+      <h3 className="mostrador-quantidade-produtos">
         Quantidade de Produtos: {produtos.length}
       </h3>
 
@@ -62,15 +62,15 @@ export default function Dashboard() {
           >
 
             {/* nome do produto clicável */}
-            <Link to={`/product/${produto.id}`}>
+            <Link className="nome-do-produto" to={`/product/${produto.id}`}>
               <h3>{produto.name}</h3>
             </Link>
 
-            <p>
+            <p className="mostrador-preco">
               Preço: R$ {produto.price}
             </p>
 
-            <p>
+            <p className="mostrador-estoque">
               Estoque: {produto.stock}
             </p>
 

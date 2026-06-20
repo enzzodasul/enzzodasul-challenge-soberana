@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { backendApi } from "../../services/api";
 
+import "./EditProduct.css";
+
 export default function EditProduct() {
 
   // pega o id que veio pela url
@@ -144,7 +146,7 @@ export default function EditProduct() {
 
         <br />
 
-        <button type="submit">
+        <button className="btn-atualizar-produto" type="submit">
           Atualizar Produto
         </button>
 
